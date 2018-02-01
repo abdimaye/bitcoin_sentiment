@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Current thoughts on Bitcoin </title>
+</head>
+<style>
+    #main {
+        margin-top: auto;
+        height: 50%;
+        width: 100%;
+        position: absolute;
+        text-align: center;
+        padding-top: 25%;
+    }   
+    
+    .emoji {
+        font-size: 200px
+    }
+</style>
+
+<body>
+    <div id="main">
+        <span class="loading">Loading feelings...</span>
+        <span class="emoji"></span>
+    </div>
+    <div class="data">
+        
+    </div>
+    
+    
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script>
+    
+    $(document).ready(function() {
+        $.ajax({
+            url: 'https://api.coinmarketcap.com/v1/ticker/bitcoin/',
+            type: 'GET',
+            dataType: 'json'
+        }).done(function(json) {
+            var data = json[0];
+            var percentageChange1h = data.percent_change_1h;
+            var percentageChange24h = data.percent_change_24h;
+            var percentageChange7d = data.percent_change_7d;
+            
+            $('.loading').html('');
+            
+            if (percentageChange24h < -5 && percentageChange7d < -10) {
+               $('.emoji').append('🏃‍');
+            }
+            
+            if (percentageChange24h < -20) {
+                $('.emoji').append('😭');
+            }
+            
+            if (percentageChange24h < -10) {
+                $('.emoji').append('😰');
+            }
+            
+            
+            if (percentageChange24h > 0 && percentageChange24h < 1) {
+                $('.emoji').append('🤔');
+            }
+            
+            if (percentageChange24h > 5 && percentageChange24h < 10) {
+                $('.emoji').append('😏');
+            }
+            
+            if (percentageChange24h > 10 && percentageChange24h < 15) {
+                $('.emoji').append('😀');
+            }
+            
+            if (percentageChange24h > 15 && percentageChange24h < 20) {
+                $('.emoji').append('😁');
+            }
+            
+            if (percentageChange24h > 20) {
+                $('.emoji').append('🎊');
+            }
+            
+            if (percentageChange24h > 20 && percentageChange7d > 10) {
+                $('.emoji').append('🤑');
+            }
+                        
+            console.log(data)
+
+        }).fail(function(xhr, status, errorThrown) {
+                
+        }).always(function(xhr, status){
+            
+        });
+    });
+
+    </script>
+</body>
+</html>
